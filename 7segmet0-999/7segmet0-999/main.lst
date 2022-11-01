@@ -1,0 +1,313 @@
+CCS PCM C Compiler, Version 5.007, 61971               26-Eki-22 15:44
+
+               Filename:   C:\Users\kurtr\Desktop\PIC_C_Projeleri\7segmet0-999\main.lst
+
+               ROM used:   232 words (3%)
+                           Largest free fragment is 2048
+               RAM used:   12 (3%) at main() level
+                           16 (4%) worst case
+               Stack used: 0 locations
+               Stack size: 8
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   07F
+0003:  NOP
+.................... #include <16f877a.h> 
+.................... //////// Standard Header file for the PIC16F877A device //////////////// 
+.................... #device PIC16F877A 
+0004:  MOVF   29,W
+0005:  CLRF   78
+0006:  SUBWF  28,W
+0007:  BTFSC  03.0
+0008:  GOTO   00C
+0009:  MOVF   28,W
+000A:  MOVWF  77
+000B:  GOTO   018
+000C:  CLRF   77
+000D:  MOVLW  08
+000E:  MOVWF  2A
+000F:  RLF    28,F
+0010:  RLF    77,F
+0011:  MOVF   29,W
+0012:  SUBWF  77,W
+0013:  BTFSC  03.0
+0014:  MOVWF  77
+0015:  RLF    78,F
+0016:  DECFSZ 2A,F
+0017:  GOTO   00F
+0018:  RETURN
+*
+005D:  BCF    0A.0
+005E:  BCF    0A.1
+005F:  BCF    0A.2
+0060:  ADDWF  02,F
+0061:  GOTO   03F
+0062:  GOTO   042
+0063:  GOTO   045
+0064:  GOTO   048
+0065:  GOTO   04B
+0066:  GOTO   04E
+0067:  GOTO   051
+0068:  GOTO   054
+0069:  GOTO   057
+006A:  GOTO   05A
+....................  
+.................... #list 
+....................  
+.................... #fuses HS,NOWDT 
+.................... #use delay(clock=20000000) 
+006B:  MOVLW  26
+006C:  MOVWF  04
+006D:  BCF    03.7
+006E:  MOVF   00,W
+006F:  BTFSC  03.2
+0070:  GOTO   07E
+0071:  MOVLW  06
+0072:  MOVWF  78
+0073:  CLRF   77
+0074:  DECFSZ 77,F
+0075:  GOTO   074
+0076:  DECFSZ 78,F
+0077:  GOTO   073
+0078:  MOVLW  7B
+0079:  MOVWF  77
+007A:  DECFSZ 77,F
+007B:  GOTO   07A
+007C:  DECFSZ 00,F
+007D:  GOTO   071
+007E:  RETURN
+....................  
+.................... int i; 
+.................... int sayi = 0; 
+.................... int birler,onlar,yuzler; 
+.................... void bin2dec(int); 
+.................... int bcd2_7seg(int); 
+....................  
+.................... void main() 
+007F:  CLRF   21
+0080:  MOVLW  FF
+0081:  MOVWF  25
+0082:  BSF    03.5
+0083:  BSF    1F.0
+0084:  BSF    1F.1
+0085:  BSF    1F.2
+0086:  BCF    1F.3
+0087:  MOVLW  07
+0088:  MOVWF  1C
+0089:  BCF    03.7
+008A:  MOVLW  1F
+008B:  ANDWF  03,F
+.................... { 
+.................... set_tris_b(0x00); 
+008C:  MOVLW  00
+008D:  MOVWF  06
+.................... set_tris_c(0x00); 
+008E:  MOVWF  07
+008F:  BCF    03.5
+0090:  MOVWF  25
+.................... set_tris_d(0xFF); 
+0091:  MOVLW  FF
+0092:  BSF    03.5
+0093:  MOVWF  08
+.................... output_b(0x00); 
+0094:  CLRF   06
+0095:  BCF    03.5
+0096:  CLRF   06
+.................... output_c(0x00); 
+0097:  MOVLW  00
+0098:  MOVWF  25
+0099:  BSF    03.5
+009A:  CLRF   07
+009B:  BCF    03.5
+009C:  CLRF   07
+.................... output_d(0x00); 
+009D:  BSF    03.5
+009E:  CLRF   08
+009F:  BCF    03.5
+00A0:  CLRF   08
+....................  
+.................... while(1){ 
+.................... sayi = input_d(); 
+00A1:  MOVLW  FF
+00A2:  BSF    03.5
+00A3:  MOVWF  08
+00A4:  BCF    03.5
+00A5:  MOVF   08,W
+00A6:  MOVWF  21
+.................... sayi = sayi & 0b1111111111; 
+....................  
+.................... bin2dec(sayi); 
+00A7:  MOVF   21,W
+00A8:  MOVWF  26
+00A9:  CALL   019
+.................... output_c(0b110); 
+00AA:  MOVLW  00
+00AB:  MOVWF  25
+00AC:  BSF    03.5
+00AD:  CLRF   07
+00AE:  MOVLW  06
+00AF:  BCF    03.5
+00B0:  MOVWF  07
+.................... output_b(bcd2_7seg(birler)); 
+00B1:  MOVF   22,W
+00B2:  MOVWF  26
+00B3:  CALL   039
+00B4:  BSF    03.5
+00B5:  CLRF   06
+00B6:  BCF    03.5
+00B7:  MOVF   78,W
+00B8:  MOVWF  06
+.................... delay_ms(5); 
+00B9:  MOVLW  05
+00BA:  MOVWF  26
+00BB:  CALL   06B
+.................... bin2dec(sayi); 
+00BC:  MOVF   21,W
+00BD:  MOVWF  26
+00BE:  CALL   019
+.................... output_c(0b101); 
+00BF:  MOVLW  00
+00C0:  MOVWF  25
+00C1:  BSF    03.5
+00C2:  CLRF   07
+00C3:  MOVLW  05
+00C4:  BCF    03.5
+00C5:  MOVWF  07
+.................... output_b(bcd2_7seg(onlar)); 
+00C6:  MOVF   23,W
+00C7:  MOVWF  26
+00C8:  CALL   039
+00C9:  BSF    03.5
+00CA:  CLRF   06
+00CB:  BCF    03.5
+00CC:  MOVF   78,W
+00CD:  MOVWF  06
+.................... delay_ms(5); 
+00CE:  MOVLW  05
+00CF:  MOVWF  26
+00D0:  CALL   06B
+.................... bin2dec(sayi); 
+00D1:  MOVF   21,W
+00D2:  MOVWF  26
+00D3:  CALL   019
+.................... output_c(0b011); 
+00D4:  MOVLW  00
+00D5:  MOVWF  25
+00D6:  BSF    03.5
+00D7:  CLRF   07
+00D8:  MOVLW  03
+00D9:  BCF    03.5
+00DA:  MOVWF  07
+.................... output_b(bcd2_7seg(yuzler)); 
+00DB:  MOVF   24,W
+00DC:  MOVWF  26
+00DD:  CALL   039
+00DE:  BSF    03.5
+00DF:  CLRF   06
+00E0:  BCF    03.5
+00E1:  MOVF   78,W
+00E2:  MOVWF  06
+.................... delay_ms(5); 
+00E3:  MOVLW  05
+00E4:  MOVWF  26
+00E5:  CALL   06B
+00E6:  GOTO   0A1
+.................... } 
+.................... } 
+....................  
+00E7:  SLEEP
+.................... void bin2dec(int input){ 
+....................    birler = input%10; 
+*
+0019:  MOVF   26,W
+001A:  MOVWF  28
+001B:  MOVLW  0A
+001C:  MOVWF  29
+001D:  CALL   004
+001E:  MOVF   77,W
+001F:  MOVWF  22
+....................    onlar = (input/10)%10; 
+0020:  MOVF   26,W
+0021:  MOVWF  28
+0022:  MOVLW  0A
+0023:  MOVWF  29
+0024:  CALL   004
+0025:  MOVF   78,W
+0026:  MOVWF  28
+0027:  MOVLW  0A
+0028:  MOVWF  29
+0029:  CALL   004
+002A:  MOVF   77,W
+002B:  MOVWF  23
+....................    yuzler = (input/100)%10; 
+002C:  MOVF   26,W
+002D:  MOVWF  28
+002E:  MOVLW  64
+002F:  MOVWF  29
+0030:  CALL   004
+0031:  MOVF   78,W
+0032:  MOVWF  28
+0033:  MOVLW  0A
+0034:  MOVWF  29
+0035:  CALL   004
+0036:  MOVF   77,W
+0037:  MOVWF  24
+0038:  RETURN
+.................... } 
+....................  
+.................... int bcd2_7seg(int num){ 
+....................    switch(num) 
+0039:  MOVF   26,W
+003A:  ADDLW  F6
+003B:  BTFSC  03.0
+003C:  GOTO   05C
+003D:  ADDLW  0A
+003E:  GOTO   05D
+....................    { 
+....................    case 0: return 0x3F; 
+003F:  MOVLW  3F
+0040:  MOVWF  78
+0041:  GOTO   05C
+....................    case 1: return 0x06; 
+0042:  MOVLW  06
+0043:  MOVWF  78
+0044:  GOTO   05C
+....................    case 2: return 0x5B; 
+0045:  MOVLW  5B
+0046:  MOVWF  78
+0047:  GOTO   05C
+....................    case 3: return 0x4F; 
+0048:  MOVLW  4F
+0049:  MOVWF  78
+004A:  GOTO   05C
+....................    case 4: return 0x66; 
+004B:  MOVLW  66
+004C:  MOVWF  78
+004D:  GOTO   05C
+....................    case 5: return 0x6D; 
+004E:  MOVLW  6D
+004F:  MOVWF  78
+0050:  GOTO   05C
+....................    case 6: return 0x7C; 
+0051:  MOVLW  7C
+0052:  MOVWF  78
+0053:  GOTO   05C
+....................    case 7: return 0x07; 
+0054:  MOVLW  07
+0055:  MOVWF  78
+0056:  GOTO   05C
+....................    case 8: return 0x7F; 
+0057:  MOVLW  7F
+0058:  MOVWF  78
+0059:  GOTO   05C
+....................    case 9: return 0x6F; 
+005A:  MOVLW  6F
+005B:  MOVWF  78
+....................    } 
+005C:  RETURN
+.................... } 
+
+Configuration Fuses:
+   Word  1: 3F72   HS NOWDT PUT BROWNOUT NOLVP NOCPD NOWRT NODEBUG NOPROTECT

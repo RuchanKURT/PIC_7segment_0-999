@@ -1,0 +1,74 @@
+004-005 @READ_PROGRAM_MEMORY8.P1
+004-005 @WRITE_PROGRAM_MEMORY8.P2
+008     PSP_DATA
+015     CCP_1_LOW
+015     CCP_1
+016     CCP_1_HIGH
+01B     CCP_2_LOW
+01B     CCP_2
+01C     CCP_2_HIGH
+020     i
+021     sayi
+022     birler
+023     onlar
+024     yuzler
+025     @TRIS_C
+026     @delay_ms1.P1
+026     bin2dec.input
+026     bcd2_7seg.num
+026     main.@SCRATCH1
+027     bin2dec.@SCRATCH1
+028     @DIV88.P1
+029     @DIV88.P1
+02A     @DIV88.@SCRATCH1
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+09C.6   C1OUT
+09C.7   C2OUT
+10D-10E @WRITE_PROGRAM_MEMORY8.P1
+10D-10E @READ_PROGRAM_MEMORY8.P2
+
+ROM Allocation:
+000004  @DIV88
+000019  bin2dec
+000039  bcd2_7seg
+00005D  @goto10594
+00006B  @delay_ms1
+00007F  main
+00007F  @cinit1
+000089  @cinit2
+
+Project Directory:
+    C:\Users\kurtr\Desktop\PIC_C_Projeleri\7segmet0-999\
+
+Project Files:
+    main.c                                                  [26-Eki-22 15:44  CRC=1C70CC5F]
+    ..\..\..\..\..\Program Files (x86)\PICC\Devices\16f877a.h [21-Haz-13 16:04  CRC=4E65664C]
+
+Source signature=B93B98F7
+
+Units:
+    main (main)
+
+Compiler Settings:
+    Processor:      PIC16F877A
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    XREF file:   main.xsym
+    Errors:      main.err
+    Ext Symbols: main.esym
+    INHX8:       main.hex
+    Symbols:     main.sym
+    List:        main.lst
+    Debug/COFF:  main.cof
+    Project:     main.ccspjt
+    Call Tree:   main.tre
+    Statistics:  main.STA
